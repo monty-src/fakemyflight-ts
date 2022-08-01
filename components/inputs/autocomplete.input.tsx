@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import AutoCompleteModel from "../models/autocomplete.models";
+import AutoCompleteModel from "../../models/autocomplete.models";
 
 interface Props {
   label: string;

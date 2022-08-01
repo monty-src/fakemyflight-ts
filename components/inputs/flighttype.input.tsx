@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FlightTypeInputModel, {
   ONE_WAY,
   FlightType,
-} from "../models/flighttype.models";
+} from "../../models/flighttype.models";
 
 const FlightTypeInput = (): JSX.Element => {
   // state properties

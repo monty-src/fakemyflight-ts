@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from "react";
-import Section from "./Section";
-import FlightTypeInput from "./FlightTypeInput";
-import AutoCompleteInput from "./AutoCompleteInput";
+import React, { useState } from "react";
+import Section from "../Section";
+import FlightTypeInput from "../inputs/flighttype.input";
+import AutoCompleteInput from "../inputs/autocomplete.input";
 
 type Props = {};
 
