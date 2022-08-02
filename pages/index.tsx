@@ -5,9 +5,6 @@ import FindFlightForm from "../components/forms/findflight.forms";
 const Home: NextPage = () => {
   return (
     <>
-      <Section>
-        <p>testing</p>
-      </Section>
       <FindFlightForm />
     </>
   );
