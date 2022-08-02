@@ -38,7 +38,9 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
     setSelect,
 
     options,
-    setOptions
+    setOptions,
+
+    setAirport
   );
 
   // deconstruct model
@@ -59,14 +61,11 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
       />
       {isMenuOpen && (
         <div ref={$listRef}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-          <div>8</div>
+          {options.map((option, idx) => (
+            <div key={idx} onClick={handleMenuItemSelected}>
+              {option}
+            </div>
+          ))}
         </div>
       )}
     </div>

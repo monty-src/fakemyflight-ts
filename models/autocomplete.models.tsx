@@ -9,8 +9,6 @@ enum KeyEvents {
   SHIFT = "Shift",
 }
 
-export interface AutoCopmleteInputProps {}
-
 const { ARROW_DOWN, ARROW_UP, ENTER, TAB, SHIFT } = KeyEvents;
 
 class AutoCopmleteInput {
@@ -30,7 +28,9 @@ class AutoCopmleteInput {
     private setSelect: React.Dispatch<React.SetStateAction<number>>,
 
     private options: string[],
-    private setOptions: React.Dispatch<React.SetStateAction<string[]>>
+    private setOptions: React.Dispatch<React.SetStateAction<string[]>>,
+
+    private setAirport: React.Dispatch<React.SetStateAction<string>>
   ) {}
 
   private arrowDown(): void {
@@ -51,7 +51,7 @@ class AutoCopmleteInput {
   }
 
   private enter(): void {
-    const { current } = (this.$listRef as MutableRefObject<HTMLDivElement>);
+    const { current } = this.$listRef as MutableRefObject<HTMLDivElement>;
     (current.childNodes[this.select] as HTMLDivElement).click();
     this.setOptions([]);
   }
@@ -81,14 +81,18 @@ class AutoCopmleteInput {
   }
 
   @bind
-  public handleMenuItemSelected(
-    event: React.MouseEvent<HTMLDivElement>
-  ): void {}
+  public handleMenuItemSelected(event: React.MouseEvent<HTMLDivElement>): void {
+    const { textContent } = event.target as HTMLDivElement;
+    const trimmedTextContent = textContent!.trim();
+    this.setValue(trimmedTextContent);
+    this.setAirport(trimmedTextContent);
+    this.setMenuToOpen(false);
+  }
 
   @bind
   public handleOnKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (!this.isMenuOpen) return;
-    const { current } = (this.$listRef as MutableRefObject<HTMLDivElement>);
+    const { current } = this.$listRef as MutableRefObject<HTMLDivElement>;
     this.childrenLength = current.childNodes.length;
     switch (event.key) {
       case ARROW_DOWN:
