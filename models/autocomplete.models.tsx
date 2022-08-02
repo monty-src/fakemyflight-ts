@@ -1,5 +1,5 @@
 import React, { Ref, MutableRefObject } from "react";
-import axios from 'axios';
+import axios from "axios";
 import bind from "bind-decorator";
 
 enum KeyDownEvents {
@@ -75,25 +75,17 @@ class AutoCopmleteInput implements KeyBoardEvents {
 
   @bind
   public requestAirports(): void {
-    if(!this.value) return;
-    
-    const configuration = {
-      method: 'GET',
-      url: `api/airports/${this.value}`
-    };
+    if (!this.value) return;
 
-    axios
-      .request(configuration)
-      .then((response) => {
-        if (response.data.name !== null) {
-          this.setOptions([`${response.data.code} - ${response.data.name}`]);
-          return false;
-        }
-        this.setOptions(['No results found']);
-      })
-      .catch((error) => {
-        this.setOptions(['No results found']);
-      });
+    (async () => {
+      const airports = await axios.get(`api/airports/${this.value}`);
+      const { name, code } = airports.data;
+      if (name) {
+        this.setOptions([`${code} - ${name}`]);
+        return false;
+      }
+      this.setOptions(["No results found"]);
+    })();
   }
 
   @bind
