@@ -1,4 +1,4 @@
-import React, { Ref } from "react";
+import React, { Ref, MutableRefObject } from "react";
 import bind from "bind-decorator";
 
 enum KeyEvents {
@@ -17,8 +17,8 @@ class AutoCopmleteInput {
   public childrenLength: number = -1;
 
   constructor(
-    private $ref: Ref<HTMLDivElement> | null,
-    private $listRef: Ref<HTMLDivElement | null> | null,
+    private $ref: Ref<HTMLDivElement>,
+    private $listRef: Ref<HTMLDivElement>,
 
     private value: string,
     private setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -51,8 +51,8 @@ class AutoCopmleteInput {
   }
 
   private enter(): void {
-    const { current } = this.$listRef;
-    current.childNodes[this.select].click();
+    const { current } = (this.$listRef as MutableRefObject<HTMLDivElement>);
+    (current.childNodes[this.select] as HTMLDivElement).click();
     this.setOptions([]);
   }
 
@@ -88,7 +88,7 @@ class AutoCopmleteInput {
   @bind
   public handleOnKeyDown(event: React.KeyboardEvent<HTMLDivElement>): void {
     if (!this.isMenuOpen) return;
-    const { current } = this.$listRef;
+    const { current } = (this.$listRef as MutableRefObject<HTMLDivElement>);
     this.childrenLength = current.childNodes.length;
     switch (event.key) {
       case ARROW_DOWN:
