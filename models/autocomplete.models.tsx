@@ -66,8 +66,23 @@ class AutoCopmleteInput {
   }
 
   public requestAirports(): void {}
-  public clickedOutsideOfBounds(): void {}
-  public setClickedOutsideOfBounds(): void {}
+
+  @bind
+  public setClickedOutsideOfBounds(event: MouseEvent): void {
+    const ref = this.$ref as MutableRefObject<HTMLDivElement>;
+    if (this.isMenuOpen && ref.current && !ref.current.contains(event.target as HTMLDivElement)) {
+      this.setMenuToOpen(false);
+      this.setSelect(-1);
+    }
+  }
+
+  @bind
+  public handleOutsideOfBounds(): () => void {
+    document.addEventListener("mousedown", this.setClickedOutsideOfBounds);
+    return () => {
+      document.removeEventListener("mousedown", this.setClickedOutsideOfBounds);
+    };
+  }
 
   @bind
   public handleOnChangeInput(event: React.ChangeEvent<HTMLInputElement>): void {

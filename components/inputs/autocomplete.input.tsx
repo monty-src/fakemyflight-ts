@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AutoCompleteModel from "../../models/autocomplete.models";
 
 interface Props {
@@ -44,8 +44,14 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
   );
 
   // deconstruct model
-  const { handleOnChangeInput, handleOnKeyDown, handleMenuItemSelected } =
-    autoCompleteInput;
+  const {
+    handleOnChangeInput,
+    handleOnKeyDown,
+    handleMenuItemSelected,
+    handleOutsideOfBounds,
+  } = autoCompleteInput;
+
+  useEffect(handleOutsideOfBounds, [value]);
 
   return (
     <div ref={ref}>
