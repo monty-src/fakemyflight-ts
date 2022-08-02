@@ -1,3 +1,4 @@
+import { request } from "http";
 import React, { useState, useRef, useEffect } from "react";
 import AutoCompleteModel from "../../models/autocomplete.models";
 
@@ -49,9 +50,11 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
     handleOnKeyDown,
     handleMenuItemSelected,
     handleOutsideOfBounds,
+    requestAirports,
   } = autoCompleteInput;
 
-  useEffect(handleOutsideOfBounds, [value]);
+  useEffect(requestAirports, [value]);
+  useEffect(handleOutsideOfBounds, [isMenuOpen]);
 
   return (
     <div ref={ref}>

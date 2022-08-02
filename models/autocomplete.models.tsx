@@ -1,7 +1,8 @@
 import React, { Ref, MutableRefObject } from "react";
+import axios from 'axios';
 import bind from "bind-decorator";
 
-enum KeyEvents {
+enum KeyDownEvents {
   ARROW_DOWN = "ArrowDown",
   ARROW_UP = "ArrowUp",
   ENTER = "Enter",
@@ -9,9 +10,16 @@ enum KeyEvents {
   SHIFT = "Shift",
 }
 
-const { ARROW_DOWN, ARROW_UP, ENTER, TAB, SHIFT } = KeyEvents;
+interface KeyBoardEvents {
+  arrowDown: () => void;
+  arrowUp: () => void;
+  enter: () => void;
+  TabShift: () => void;
+}
 
-class AutoCopmleteInput {
+const { ARROW_DOWN, ARROW_UP, ENTER, TAB, SHIFT } = KeyDownEvents;
+
+class AutoCopmleteInput implements KeyBoardEvents {
   public childrenLength: number = -1;
 
   constructor(
@@ -33,7 +41,7 @@ class AutoCopmleteInput {
     private setAirport: React.Dispatch<React.SetStateAction<string>>
   ) {}
 
-  private arrowDown(): void {
+  public arrowDown(): void {
     const select = +this.select;
     if (this.childrenLength === select) {
       this.setSelect(0);
@@ -42,7 +50,7 @@ class AutoCopmleteInput {
     this.setSelect(select + 1);
   }
 
-  private arrowUp(): void {
+  public arrowUp(): void {
     const select = +this.select;
     if (+select <= 0) {
       this.setSelect(this.childrenLength);
@@ -50,13 +58,13 @@ class AutoCopmleteInput {
     }
   }
 
-  private enter(): void {
+  public enter(): void {
     const { current } = this.$listRef as MutableRefObject<HTMLDivElement>;
     (current.childNodes[this.select] as HTMLDivElement).click();
     this.setOptions([]);
   }
 
-  private TabShift(): void {
+  public TabShift(): void {
     this.setMenuToOpen(false);
     this.setOptions([]);
   }
@@ -65,12 +73,37 @@ class AutoCopmleteInput {
     return typeof text === "string" && text.trim().length == 0;
   }
 
-  public requestAirports(): void {}
+  @bind
+  public requestAirports(): void {
+    if(!this.value) return;
+    
+    const configuration = {
+      method: 'GET',
+      url: `api/airports/${this.value}`
+    };
+
+    axios
+      .request(configuration)
+      .then((response) => {
+        if (response.data.name !== null) {
+          this.setOptions([`${response.data.code} - ${response.data.name}`]);
+          return false;
+        }
+        this.setOptions(['No results found']);
+      })
+      .catch((error) => {
+        this.setOptions(['No results found']);
+      });
+  }
 
   @bind
   public setClickedOutsideOfBounds(event: MouseEvent): void {
     const ref = this.$ref as MutableRefObject<HTMLDivElement>;
-    if (this.isMenuOpen && ref.current && !ref.current.contains(event.target as HTMLDivElement)) {
+    if (
+      this.isMenuOpen &&
+      ref.current &&
+      !ref.current.contains(event.target as HTMLDivElement)
+    ) {
       this.setMenuToOpen(false);
       this.setSelect(-1);
     }
