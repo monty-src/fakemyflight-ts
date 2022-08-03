@@ -4,17 +4,16 @@ import bind from "bind-decorator";
 
 class DatePickerModel {
   constructor(
-    public toDate: Date | null,
-    public setToDate: React.Dispatch<React.SetStateAction<Date | null>>,
+    public selectedLeaveDate: Date,
+    public setSelectedLeaveDate: React.Dispatch<React.SetStateAction<Date>>,
 
-    public fromDate: Date,
-    public setFromDate: React.Dispatch<React.SetStateAction<Date>>
+    public selectedReturnDate: Date,
+    public setSelectedReturnDate: React.Dispatch<React.SetStateAction<Date>>
   ) {}
 
   @bind
-  public addTwoWeeks(): void {
-    const twoWeeksLater = moment(this.fromDate).add({ weeks: 2 }).toDate();
-    this.setToDate(twoWeeksLater);
+  static AddTwoWeeks(date: Date): Date {
+    return moment(date).add({ weeks: 2 }).toDate();
   }
 }
 

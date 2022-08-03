@@ -2,11 +2,13 @@ import React from "react";
 import DatePicker from "react-datepicker";
 
 const DatePickerInput = ({
+  onChange,
   label,
   selectedDate,
 }: {
+  onChange: React.Dispatch<React.SetStateAction<Date>>;
   label: string;
-  selectedDate: Date | null;
+  selectedDate: Date;
 }) => {
   return (
     <DatePicker

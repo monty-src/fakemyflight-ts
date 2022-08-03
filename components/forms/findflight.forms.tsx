@@ -9,21 +9,29 @@ import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {};
 
+const { AddTwoWeeks } = DatePickerModel;
+
 const FindFlightForm = ({}: Props): JSX.Element => {
+  const today = new Date();
+  const twoWeeksLater = AddTwoWeeks(today);
+
   const [fromAirport, setFromAirport] = useState<string>("");
   const [toAirport, setToAirport] = useState<string>("");
 
-  const [toDate, setToDate] = useState<Date | null>(null);
-  const [fromDate, setFromDate] = useState(new Date());
+  const [selectedLeaveDate, setSelectedLeaveDate] = useState<Date>(today);
+  const [selectedReturnDate, setSelectedReturnDate] =
+    useState<Date>(twoWeeksLater);
 
   const datePickerModel = new DatePickerModel(
-    toDate,
-    setToDate,
-    fromDate,
-    setFromDate
+    selectedLeaveDate,
+    setSelectedLeaveDate,
+    selectedReturnDate,
+    setSelectedReturnDate
   );
-  
-  useEffect(datePickerModel.addTwoWeeks, []);
+
+  console.log(datePickerModel);
+
+  // useEffect(datePickerModel.addTwoWeeks, []);
 
   return (
     <Section tailwindColumnSize={2}>
@@ -31,8 +39,16 @@ const FindFlightForm = ({}: Props): JSX.Element => {
         <FlightTypeInput />
         <AutoCompleteInput label="From" setAirport={setFromAirport} />
         <AutoCompleteInput label="To" setAirport={setToAirport} />
-        <DatePickerInput selectedDate={fromDate} label="Leave Date" />
-        <DatePickerInput selectedDate={toDate} label="Return Date" />
+        <DatePickerInput
+          onChange={setSelectedLeaveDate}
+          selectedDate={selectedLeaveDate}
+          label="Leave Date"
+        />
+        <DatePickerInput
+          onChange={setSelectedReturnDate}
+          selectedDate={selectedReturnDate}
+          label="Return Date"
+        />
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
