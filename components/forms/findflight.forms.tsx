@@ -41,7 +41,7 @@ const FindFlightForm = ({}: Props): JSX.Element => {
     setSelectedReturnDate
   );
 
-  const ok = new FindFlightModel(
+  const {submit} = new FindFlightModel(
     datePickerModel,
     flightTypeModel,
 
@@ -49,11 +49,9 @@ const FindFlightForm = ({}: Props): JSX.Element => {
     toAirport
   );
 
-  console.log('ok: ', ok);
-
   return (
     <Section tailwindColumnSize={2}>
-      <form>
+      <form onSubmit={submit}>
         <FlightTypeInput
           selectedTrip={selectedTrip}
           trips={flightTypeModel.trips}
@@ -71,7 +69,7 @@ const FindFlightForm = ({}: Props): JSX.Element => {
           selectedDate={selectedReturnDate}
           onChange={datePickerModel.setReturnDate}
         />
-        <button>
+        <button type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-5 h-5"
