@@ -8,7 +8,7 @@ const DatePickerInput = ({
 }: {
   onChange: (date: Date) => void;
   label: string;
-  selectedDate: Date | null;
+  selectedDate: Date;
 }) => {
   return (
     <DatePicker

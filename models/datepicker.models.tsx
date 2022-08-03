@@ -1,10 +1,9 @@
 import React from "react";
 import moment from "moment";
 import bind from "bind-decorator";
-import { ONE_WAY, FlightType } from "../models/flighttype.models";
 
 export type DatePickerProps = {
-  selectedReturnDate: Date | null;
+  selectedReturnDate: Date;
 };
 
 class DatePickerModel {
@@ -12,9 +11,9 @@ class DatePickerModel {
     public selectedLeaveDate: Date,
     public setSelectedLeaveDate: React.Dispatch<React.SetStateAction<Date>>,
 
-    public selectedReturnDate: Date | null,
+    public selectedReturnDate: Date,
     public setSelectedReturnDate: React.Dispatch<
-      React.SetStateAction<Date | null>
+      React.SetStateAction<Date>
     >
   ) {}
 
@@ -22,11 +21,11 @@ class DatePickerModel {
     return moment(date).add({ weeks: 2 }).toDate();
   }
 
-  public addOneDay(date: Date | null): Date {
+  public addOneDay(date: Date): Date {
     return moment(date).add({ days: 1 }).toDate();
   }
 
-  public isBefore(date1: Date | null, date2: Date | null) {
+  public isBefore(date1: Date, date2: Date) {
     return moment(date1).isBefore(date2);
   }
 

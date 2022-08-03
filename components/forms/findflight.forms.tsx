@@ -25,7 +25,7 @@ const FindFlightForm = ({}: Props): JSX.Element => {
   const [selectedTrip, setTrip] = useState<FlightType>(ONE_WAY);
 
   const [selectedLeaveDate, setSelectedLeaveDate] = useState<Date>(today);
-  const [selectedReturnDate, setSelectedReturnDate] = useState<Date | null>(
+  const [selectedReturnDate, setSelectedReturnDate] = useState<Date>(
     twoWeeksLater
   );
 
