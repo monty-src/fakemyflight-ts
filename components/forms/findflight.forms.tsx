@@ -5,6 +5,11 @@ import AutoCompleteInput from "../inputs/autocomplete.input";
 import DatePickerInput from "../inputs/datepicker.input";
 import DatePickerModel from "../../models/datepicker.models";
 
+import FlightTypeInputModel, {
+  ONE_WAY,
+  FlightType,
+} from "../../models/flighttype.models";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 type Props = {};
@@ -17,13 +22,17 @@ const FindFlightForm = ({}: Props): JSX.Element => {
 
   const [fromAirport, setFromAirport] = useState<string>("");
   const [toAirport, setToAirport] = useState<string>("");
+  const [selectedTrip, setTrip] = useState<FlightType>(ONE_WAY);
 
   const [selectedLeaveDate, setSelectedLeaveDate] = useState<Date>(today);
   const [selectedReturnDate, setSelectedReturnDate] = useState<Date | null>(
     twoWeeksLater
   );
 
-  const { setReturnDate, setLeaveDate } = new DatePickerModel(
+  const { trips, handleTripTypeSelected }: FlightTypeInputModel =
+    new FlightTypeInputModel(selectedTrip, setTrip);
+
+  const { setReturnDate, setLeaveDate }: DatePickerModel = new DatePickerModel(
     selectedLeaveDate,
     setSelectedLeaveDate,
     selectedReturnDate,
@@ -33,7 +42,11 @@ const FindFlightForm = ({}: Props): JSX.Element => {
   return (
     <Section tailwindColumnSize={2}>
       <form>
-        <FlightTypeInput />
+        <FlightTypeInput
+          trips={trips}
+          selectedTrip={selectedTrip}
+          handleTripTypeSelected={handleTripTypeSelected}
+        />
         <AutoCompleteInput label="From" setAirport={setFromAirport} />
         <AutoCompleteInput label="To" setAirport={setToAirport} />
         <DatePickerInput

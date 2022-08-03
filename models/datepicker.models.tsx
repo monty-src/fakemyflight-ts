@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import bind from "bind-decorator";
+import { ONE_WAY, FlightType } from "../models/flighttype.models";
 
 export type DatePickerProps = {
   selectedReturnDate: Date | null;
