@@ -6,16 +6,16 @@ const DatePickerInput = ({
   label,
   selectedDate,
 }: {
-  onChange: React.Dispatch<React.SetStateAction<Date>>;
+  onChange: (date: Date) => void;
   label: string;
-  selectedDate: Date;
+  selectedDate: Date | null;
 }) => {
   return (
     <DatePicker
       placeholderText={label}
       className=""
       selected={selectedDate}
-      onChange={(date) => {}}
+      onChange={onChange}
     />
   );
 };

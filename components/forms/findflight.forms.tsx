@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Section from "../Section";
 import FlightTypeInput from "../inputs/flighttype.input";
 import AutoCompleteInput from "../inputs/autocomplete.input";
@@ -19,19 +19,16 @@ const FindFlightForm = ({}: Props): JSX.Element => {
   const [toAirport, setToAirport] = useState<string>("");
 
   const [selectedLeaveDate, setSelectedLeaveDate] = useState<Date>(today);
-  const [selectedReturnDate, setSelectedReturnDate] =
-    useState<Date>(twoWeeksLater);
+  const [selectedReturnDate, setSelectedReturnDate] = useState<Date | null>(
+    twoWeeksLater
+  );
 
-  const datePickerModel = new DatePickerModel(
+  const { setReturnDate, setLeaveDate } = new DatePickerModel(
     selectedLeaveDate,
     setSelectedLeaveDate,
     selectedReturnDate,
     setSelectedReturnDate
   );
-
-  console.log(datePickerModel);
-
-  // useEffect(datePickerModel.addTwoWeeks, []);
 
   return (
     <Section tailwindColumnSize={2}>
@@ -40,12 +37,12 @@ const FindFlightForm = ({}: Props): JSX.Element => {
         <AutoCompleteInput label="From" setAirport={setFromAirport} />
         <AutoCompleteInput label="To" setAirport={setToAirport} />
         <DatePickerInput
-          onChange={setSelectedLeaveDate}
+          onChange={setLeaveDate}
           selectedDate={selectedLeaveDate}
           label="Leave Date"
         />
         <DatePickerInput
-          onChange={setSelectedReturnDate}
+          onChange={setReturnDate}
           selectedDate={selectedReturnDate}
           label="Return Date"
         />

@@ -4,23 +4,20 @@ import FlightTypeInputModel, {
   FlightType,
 } from "../../models/flighttype.models";
 
-const FlightTypeInput = (): JSX.Element => {
-  // state properties
+const FlightTypeInput = () => {
   const [selectedTrip, setTrip] = useState<FlightType>(ONE_WAY);
 
-  // model
   const flightTypeInputModel: FlightTypeInputModel = new FlightTypeInputModel(
     selectedTrip,
     setTrip
   );
 
-  // deconstruct model
   const { trips, handleTripTypeSelected } = flightTypeInputModel;
 
   return (
     <>
       {trips.map(
-        (trip: FlightType, idx: number): JSX.Element => (
+        (trip: FlightType, idx: number) => (
           <button
             key={idx}
             onClick={() => handleTripTypeSelected(trip)}
