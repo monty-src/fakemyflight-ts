@@ -4,8 +4,9 @@ import FlightTypeInput from "../inputs/flighttype.input";
 import AutoCompleteInput from "../inputs/autocomplete.input";
 import DatePickerInput from "../inputs/datepicker.input";
 import DatePickerModel from "../../models/datepicker.models";
+import FindFlightModel from "../../models/findflight.models";
 
-import FlightTypeInputModel, {
+import FlightTypeModel, {
   ONE_WAY,
   FlightType,
 } from "../../models/flighttype.models";
@@ -25,39 +26,50 @@ const FindFlightForm = ({}: Props): JSX.Element => {
   const [selectedTrip, setTrip] = useState<FlightType>(ONE_WAY);
 
   const [selectedLeaveDate, setSelectedLeaveDate] = useState<Date>(today);
-  const [selectedReturnDate, setSelectedReturnDate] = useState<Date>(
-    twoWeeksLater
+  const [selectedReturnDate, setSelectedReturnDate] =
+    useState<Date>(twoWeeksLater);
+
+  const flightTypeModel: FlightTypeModel = new FlightTypeModel(
+    selectedTrip,
+    setTrip
   );
 
-  const { trips, handleTripTypeSelected }: FlightTypeInputModel =
-    new FlightTypeInputModel(selectedTrip, setTrip);
-
-  const { setReturnDate, setLeaveDate }: DatePickerModel = new DatePickerModel(
+  const datePickerModel: DatePickerModel = new DatePickerModel(
     selectedLeaveDate,
     setSelectedLeaveDate,
     selectedReturnDate,
     setSelectedReturnDate
   );
 
+  const ok = new FindFlightModel(
+    datePickerModel,
+    flightTypeModel,
+
+    fromAirport,
+    toAirport
+  );
+
+  console.log('ok: ', ok);
+
   return (
     <Section tailwindColumnSize={2}>
       <form>
         <FlightTypeInput
-          trips={trips}
           selectedTrip={selectedTrip}
-          handleTripTypeSelected={handleTripTypeSelected}
+          trips={flightTypeModel.trips}
+          handleTripTypeSelected={flightTypeModel.handleTripTypeSelected}
         />
         <AutoCompleteInput label="From" setAirport={setFromAirport} />
         <AutoCompleteInput label="To" setAirport={setToAirport} />
         <DatePickerInput
-          onChange={setLeaveDate}
-          selectedDate={selectedLeaveDate}
           label="Leave Date"
+          selectedDate={selectedLeaveDate}
+          onChange={datePickerModel.setLeaveDate}
         />
         <DatePickerInput
-          onChange={setReturnDate}
-          selectedDate={selectedReturnDate}
           label="Return Date"
+          selectedDate={selectedReturnDate}
+          onChange={datePickerModel.setReturnDate}
         />
         <button>
           <svg

@@ -50,7 +50,7 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
   } = autoCompleteModel;
 
   useEffect(requestAirports, [autoCompleteInputValue]);
-  useEffect(handleOutsideOfBounds, [isAutoCompleteSuggessionMenuOpen]);
+  useEffect(handleOutsideOfBounds, []);
 
   return (
     <div ref={ref}>
