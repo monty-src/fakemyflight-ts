@@ -13,7 +13,7 @@ export interface FlightTypeProps {
 
 export const { ONE_WAY, ROUND_TRIP } = FlightType;
 
-class FlightTypeInput {
+class FlightTypeModel {
   public trips: FlightType[] = [ONE_WAY, ROUND_TRIP];
 
   constructor(
@@ -28,4 +28,4 @@ class FlightTypeInput {
   
 }
 
-export default FlightTypeInput;
+export default FlightTypeModel;

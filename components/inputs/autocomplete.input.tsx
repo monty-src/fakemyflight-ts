@@ -8,53 +8,49 @@ interface Props {
 }
 
 const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
-  // Div element references
   const ref = useRef<HTMLDivElement>(null);
   const $listRef = useRef<HTMLDivElement>(null);
 
-  // Set values of menu
-  const [value, setValue] = useState<string>("");
+  const [autoCompleteInputValue, setAutoCompleteInputValue] =
+    useState<string>("");
 
-  // Is Autocomplete menu open
-  const [isMenuOpen, setMenuToOpen] = useState<boolean>(false);
+  const [isAutoCompleteSuggessionMenuOpen, setAutoCompleteSuggessionMenuOpen] =
+    useState<boolean>(false);
 
-  // Highlighted Tab index
-  const [select, setSelect] = useState<number>(-1);
+  const [indexOfSelectedMenuSuggestion, setSelectedMenuSuggestion] =
+    useState<number>(-1);
 
-  // Populate setMenu
-  const [options, setOptions] = useState<string[]>([]);
+  const [menuSuggessions, setMenuSuggessions] = useState<string[]>([]);
 
-  // model
-  const autoCompleteInput: AutoCompleteModel = new AutoCompleteModel(
+  const autoCompleteModel: AutoCompleteModel = new AutoCompleteModel(
     ref,
     $listRef,
 
-    value,
-    setValue,
+    autoCompleteInputValue,
+    setAutoCompleteInputValue,
 
-    isMenuOpen,
-    setMenuToOpen,
+    isAutoCompleteSuggessionMenuOpen,
+    setAutoCompleteSuggessionMenuOpen,
 
-    select,
-    setSelect,
+    indexOfSelectedMenuSuggestion,
+    setSelectedMenuSuggestion,
 
-    options,
-    setOptions,
+    menuSuggessions,
+    setMenuSuggessions,
 
     setAirport
   );
 
-  // deconstruct model
   const {
     handleOnChangeInput,
     handleOnKeyDown,
     handleMenuItemSelected,
     handleOutsideOfBounds,
     requestAirports,
-  } = autoCompleteInput;
+  } = autoCompleteModel;
 
-  useEffect(requestAirports, [value]);
-  useEffect(handleOutsideOfBounds, [isMenuOpen]);
+  useEffect(requestAirports, [autoCompleteInputValue]);
+  useEffect(handleOutsideOfBounds, [isAutoCompleteSuggessionMenuOpen]);
 
   return (
     <div ref={ref}>
@@ -62,17 +58,17 @@ const AutoCompleteInput = ({ label, setAirport }: Props): JSX.Element => {
       <input
         id={label}
         type="text"
-        value={value}
         autoComplete="off"
         placeholder={label}
         onKeyDown={handleOnKeyDown}
         onChange={handleOnChangeInput}
+        value={autoCompleteInputValue}
       />
-      {isMenuOpen && (
+      {isAutoCompleteSuggessionMenuOpen && (
         <div ref={$listRef}>
-          {options.map((option, idx) => (
+          {menuSuggessions.map((suggession, idx) => (
             <div key={idx} onClick={handleMenuItemSelected}>
-              {option}
+              {suggession}
             </div>
           ))}
         </div>
