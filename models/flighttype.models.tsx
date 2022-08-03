@@ -22,7 +22,8 @@ class FlightTypeModel {
   ) {}
 
   @bind
-  public handleTripTypeSelected(trip: FlightType) {
+  public handleTripTypeSelected(event: React.MouseEvent<HTMLButtonElement>, trip: FlightType) {
+    event.preventDefault();
     this.setTrip(trip);
   }
   

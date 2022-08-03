@@ -20,7 +20,7 @@ const FlightTypeInput = () => {
         (trip: FlightType, idx: number) => (
           <button
             key={idx}
-            onClick={() => handleTripTypeSelected(trip)}
+            onClick={(e) => handleTripTypeSelected(e, trip)}
             className={`${trip === selectedTrip ? "bg-white" : ""} mb-10`}
           >
             {trip}
