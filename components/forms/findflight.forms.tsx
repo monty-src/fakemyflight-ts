@@ -4,7 +4,7 @@ import FlightTypeInput from "../inputs/flighttype.input";
 import DatePickerInput from "../inputs/datepicker.input";
 import AutoCompleteInput from "../inputs/autocomplete.input";
 import DatePickerModel from "../../models/datepicker.models";
-import FindFlightFormModel from "../../models/findflight.models";
+import FindFlightFormModel from "../../models/findflightform.models";
 
 import FlightTypeModel, {
   ONE_WAY,
