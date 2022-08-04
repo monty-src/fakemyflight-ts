@@ -1,6 +1,7 @@
+import Joi from 'joi';
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import FlightSchema from "../../schema/flight.schema";
+import FlightSchema, {FlightRequestSchema} from "../../schema/flight.schema";
 
 type Data = {
   name: string;
@@ -10,7 +11,16 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const flightSchema = new FlightSchema(req.body);
+  
+  const flightSchema: FlightSchema = new FlightSchema(req.body);
+
+  const { value, error } = flightSchema.schema();
+  console.log('schema: ', value);
+
+  // console.log(schema);
+
+
+
   // const schema = flightSchema.schema();
   // const { value, error } = schema;
   // console.log("value: ", schema.value);
