@@ -1,8 +1,9 @@
+import axios from "axios";
 import bind from "bind-decorator";
 import DatePickerModel from "./datepicker.models";
 import FlightTypeModel from "./flighttype.models";
 
-class FindFlightModel {
+class FindFlightFormModel {
   constructor(
     private datePickerModel: DatePickerModel,
     private flightTypeModel: FlightTypeModel,
@@ -11,15 +12,24 @@ class FindFlightModel {
     private selectedToAirport: string
   ) {}
 
+  requestFlights() {
+    (async () => {
+      const flights = await axios.post(`api/flights`, {
+        trip: this.flightTypeModel.trip,
+        selectedLeaveDate: this.datePickerModel.selectedLeaveDate,
+        selectedReturnDate: this.datePickerModel.selectedReturnDate,
+        selectedFromAirport: this.selectedFromAirport,
+        selectedToAirport: this.selectedToAirport,
+      });
+      console.log("flights: ", flights);
+    })();
+  }
+
   @bind
   public submit(event: React.SyntheticEvent) {
     event.preventDefault();
-    console.log(this.flightTypeModel.trip);
-    console.log(this.datePickerModel.selectedLeaveDate);
-    console.log(this.datePickerModel.selectedReturnDate);
-    console.log(this.selectedFromAirport);
-    console.log(this.selectedToAirport);
+    this.requestFlights();
   }
 }
 
-export default FindFlightModel;
+export default FindFlightFormModel;

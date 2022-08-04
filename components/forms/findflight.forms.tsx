@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Section from "../Section";
 import FlightTypeInput from "../inputs/flighttype.input";
-import AutoCompleteInput from "../inputs/autocomplete.input";
 import DatePickerInput from "../inputs/datepicker.input";
+import AutoCompleteInput from "../inputs/autocomplete.input";
 import DatePickerModel from "../../models/datepicker.models";
-import FindFlightModel from "../../models/findflight.models";
+import FindFlightFormModel from "../../models/findflight.models";
 
 import FlightTypeModel, {
   ONE_WAY,
@@ -41,7 +41,7 @@ const FindFlightForm = ({}: Props): JSX.Element => {
     setSelectedReturnDate
   );
 
-  const {submit} = new FindFlightModel(
+  const { submit } = new FindFlightFormModel(
     datePickerModel,
     flightTypeModel,
 
