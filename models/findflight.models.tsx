@@ -14,7 +14,7 @@ class FindFlightFormModel {
 
   requestFlights() {
     (async () => {
-      const flights = await axios.post(`api/flights`, {
+      const flights = await axios.post("api/flights", {
         trip: this.flightTypeModel.trip,
         selectedLeaveDate: this.datePickerModel.selectedLeaveDate,
         selectedReturnDate: this.datePickerModel.selectedReturnDate,
