@@ -1,31 +1,35 @@
-import Joi from 'joi';
+import Joi from "joi";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import FlightSchema, {FlightRequestSchema} from "../../schema/flight.schema";
+import FlightSchema, {
+  FormattedFlightRequestSchema,
+} from "../../schema/flight.schema";
 
 type Data = {
   name: string;
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  
   const flightSchema: FlightSchema = new FlightSchema(req.body);
+  const yesterdaysDate: Date = flightSchema.yesterdayDayDate();
+  const schema: Joi.ObjectSchema = flightSchema.schema(yesterdaysDate);
+  const { value, error }: Joi.ValidationResult = schema.validate(req.body);
 
-  const { value, error } = flightSchema.schema();
-  console.log('schema: ', value);
+  if (error) return res.status(400).json(error);
 
-  // console.log(schema);
+  const body: FormattedFlightRequestSchema = flightSchema.transform(value);
+  const { legs, trips, fares, airlines, airports } = await flightSchema.request(
+    body
+  );
 
+  console.log(legs);
+  console.log(trips);
+  console.log(fares);
+  console.log(airlines);
+  console.log(airports);
 
-
-  // const schema = flightSchema.schema();
-  // const { value, error } = schema;
-  // console.log("value: ", schema.value);
-  // console.log("error: ", scjerror);
-
-  // console.log('response: ', res);
   res.status(200).json({ name: "John Doe" });
 }
