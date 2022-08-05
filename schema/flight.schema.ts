@@ -3,7 +3,6 @@ import axios from "axios";
 import moment from "moment";
 import BaseSchema from "./base.schema";
 import { FlightType, ONE_WAY, ROUND_TRIP } from "../models/flighttype.models";
-import {Price} from "../types/flight.d"
 
 export interface FlightRequestSchema {
   trip: FlightType;
@@ -34,6 +33,28 @@ export interface PaymentFee {
   currencyCode: string;
   amount: number;
   amountUsd: number;
+}
+
+export interface Price {
+  totalAmount: number;
+  totalAmountUsd: number;
+  amount: number;
+  amountUsd: number;
+  originalAmount: number;
+  originalAmountUsd: number;
+  amountPerAdult: number;
+  amountPerChild: number;
+  amountPerInfant: number;
+  taxAmount: number;
+  taxAmountUsd: number;
+  totalTaxAmount: number;
+  totalTaxAmountUsd: number;
+  currencyCode: string;
+  paymentFeeAmountUsd: number;
+  bookingFee: number;
+  bookingFeeUsd: number;
+  totalBookingFee: number;
+  totalBookingFeeUsd: number;
 }
 
 export interface Fare {
